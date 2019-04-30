@@ -3,4 +3,8 @@
     <string name="title_home">Home</string>
     <string name="title_search">Research</string>
     <string name="title_history">History</string>
+    <string name="title_departure">Departure</string>
+    <string name="title_arrival">Arrival</string>
+    <string name="title_date">Date</string>
+    <string name="title_time">From time</string>
 </resources>
