@@ -3,6 +3,7 @@ package mg.projet.reservation;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
@@ -12,19 +13,19 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private Button btn_history;
+    private Button btn_alert;
     private Button btn_search;
+    private ConstraintLayout home_page;
+    private ConstraintLayout search_page;
+    private ConstraintLayout alert_page;
     private View.OnClickListener btn_listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent;
             switch (v.getId()) {
                 case R.id.btn_history :
-                    Log.d("ici", "historique");
-                    go_history();
+                    go_alert();
                     break;
                 case R.id.btn_search :
-                    Log.d("là", "recherche");
                     go_search();
                     break;
             }
@@ -32,19 +33,19 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+                        = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    go_home();
-                    return true;
-                case R.id.navigation_search:
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.navigation_home:
+                                go_home();
+                                return true;
+                            case R.id.navigation_search:
                     go_search();
                     return true;
                 case R.id.navigation_history:
-                    go_history();
+                    go_alert();
                     return true;
             }
             return false;
@@ -56,10 +57,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        btn_history = findViewById(R.id.btn_history);
+        home_page = findViewById(R.id.home_page);
+        alert_page = findViewById(R.id.alert_page);
+        search_page = findViewById(R.id.search_page);
+        home_page.setVisibility(View.VISIBLE);
+        search_page.setVisibility(View.GONE);
+        alert_page.setVisibility(View.GONE);
+        btn_alert = findViewById(R.id.btn_history);
         btn_search = findViewById(R.id.btn_search);
         btn_search.setOnClickListener(btn_listener);
-        btn_history.setOnClickListener(btn_listener);
+        btn_alert.setOnClickListener(btn_listener);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
@@ -67,23 +74,26 @@ public class MainActivity extends AppCompatActivity {
      * Go to seach activity
      */
     public void go_search () {
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
+        search_page.setVisibility(View.VISIBLE);
+        home_page.setVisibility(View.GONE);
+        alert_page.setVisibility(View.GONE);
     }
 
     /**
      * Go to history activity
      */
-    public void go_history () {
-        Intent intent = new Intent(this, HistoryActivity.class);
-        startActivity(intent);
+    public void go_alert () {
+        alert_page.setVisibility(View.VISIBLE);
+        search_page.setVisibility(View.GONE);
+        home_page.setVisibility(View.GONE);
     }
 
     /**
      * Go hto home activity
      */
     public void go_home () {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        home_page.setVisibility(View.VISIBLE);
+        alert_page.setVisibility(View.GONE);
+        search_page.setVisibility(View.GONE);
     }
 }
