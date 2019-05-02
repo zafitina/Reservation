@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
@@ -19,8 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity"/>
-        <activity android:name=".AlertActivity"/>
+        <activity android:name=".view.SearchActivity"/>
+        <activity android:name=".view.AlertActivity"/>
+        <activity android:name=".view.CreateAlertActivity"/>
     </application>
 
 </manifest>
