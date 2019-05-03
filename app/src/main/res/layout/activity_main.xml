@@ -24,9 +24,11 @@
         <include
             android:id="@+id/home_page"
             layout="@layout/activity_home" />
+
         <include
             android:id="@+id/search_page"
             layout="@layout/activity_search" />
+
         <include
             android:id="@+id/alert_page"
             layout="@layout/activity_alert" />
@@ -35,6 +37,6 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/activity_nav"/>
+        layout="@layout/activity_nav" />
 
 </android.support.constraint.ConstraintLayout>

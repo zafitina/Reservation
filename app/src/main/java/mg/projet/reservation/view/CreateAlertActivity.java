@@ -16,8 +16,8 @@ import java.util.Calendar;
 import mg.projet.reservation.R;
 
 public class CreateAlertActivity extends AppCompatActivity {
-    private Button btn_date, btn_time;
-    private EditText txt_date, txt_time;
+    private Button btn_date, btn_time_end, btn_time_start;
+    private EditText txt_date, txt_time_start, txt_time_end;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     private View.OnClickListener btn_listener = new View.OnClickListener() {
@@ -43,21 +43,37 @@ public class CreateAlertActivity extends AppCompatActivity {
                             }, mYear, mMonth, mDay);
                     datePickerDialog.show();
                     break;
-                case R.id.btn_time:
+                case R.id.btn_time_start:
                     mHour = c.get(Calendar.HOUR_OF_DAY);
                     mMinute = c.get(Calendar.MINUTE);
 
-                    TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                    TimePickerDialog timePickerDialog_start = new TimePickerDialog(getActivity(),
                             new TimePickerDialog.OnTimeSetListener() {
 
                                 @Override
                                 public void onTimeSet(TimePicker view, int hourOfDay,
                                                       int minute) {
 
-                                    txt_time.setText(hourOfDay + ":" + minute);
+                                    txt_time_start.setText(hourOfDay + ":" + minute);
                                 }
                             }, mHour, mMinute, true);
-                    timePickerDialog.show();
+                    timePickerDialog_start.show();
+                    break;
+                case R.id.btn_time_end:
+                    mHour = c.get(Calendar.HOUR_OF_DAY);
+                    mMinute = c.get(Calendar.MINUTE);
+
+                    TimePickerDialog timePickerDialog_end = new TimePickerDialog(getActivity(),
+                            new TimePickerDialog.OnTimeSetListener() {
+
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay,
+                                                      int minute) {
+
+                                    txt_time_end.setText(hourOfDay + ":" + minute);
+                                }
+                            }, mHour, mMinute, true);
+                    timePickerDialog_end.show();
                     break;
             }
         }
@@ -68,14 +84,17 @@ public class CreateAlertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_alert);
         btn_date = findViewById(R.id.btn_date);
-        btn_time = findViewById(R.id.btn_time);
+        btn_time_start = findViewById(R.id.btn_time_start);
+        btn_time_end = findViewById(R.id.btn_time_end);
         txt_date = findViewById(R.id.date);
-        txt_time = findViewById(R.id.time);
+        txt_time_start = findViewById(R.id.time_start);
+        txt_time_end = findViewById(R.id.time_end);
         btn_date.setOnClickListener(btn_listener);
-        btn_time.setOnClickListener(btn_listener);
+        btn_time_start.setOnClickListener(btn_listener);
+        btn_time_end.setOnClickListener(btn_listener);
     }
 
-    public Activity getActivity () {
+    public Activity getActivity() {
         return this;
     }
 }

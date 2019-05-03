@@ -9,6 +9,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,15 +19,25 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.List;
 
 import mg.projet.reservation.R;
+import mg.projet.reservation.adapter.TrajetAdapter;
+import mg.projet.reservation.application.App;
+import mg.projet.reservation.model.DaoSession;
+import mg.projet.reservation.model.Trajet;
 
 public class MainActivity extends AppCompatActivity {
     private ConstraintLayout home_page, search_page, alert_page;
-
+    private RecyclerView recyclerView;
+    private DaoSession daoSession;
+    private BottomNavigationView navView;
     private Button btn_date, btn_time, btn_create_alert;
     private EditText txt_date, txt_time;
     private int mYear, mMonth, mDay, mHour, mMinute;
+    private LinearLayoutManager layoutManager;
+    private TrajetAdapter trajetAdapter;
+    private List<Trajet> trajets;
 
     private View.OnClickListener btn_listener = new View.OnClickListener() {
         @Override
@@ -74,15 +86,15 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-                        = new BottomNavigationView.OnNavigationItemSelectedListener() {
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.navigation_home:
-                                go_home();
-                                return true;
-                            case R.id.navigation_search:
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    go_home();
+                    return true;
+                case R.id.navigation_search:
                     go_search();
                     return true;
                 case R.id.navigation_history:
@@ -97,7 +109,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+
+        initViews();
+
+        initButtons();
+
+        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    /**
+     * Init all views
+     */
+    public void initViews() {
+        navView = findViewById(R.id.nav_view);
+        recyclerView = findViewById(R.id.history);
+        daoSession = ((App) getApplication()).getDaoSession();
+
         home_page = findViewById(R.id.home_page);
         alert_page = findViewById(R.id.alert_page);
         search_page = findViewById(R.id.search_page);
@@ -105,6 +132,17 @@ public class MainActivity extends AppCompatActivity {
         search_page.setVisibility(View.GONE);
         alert_page.setVisibility(View.GONE);
 
+        // recycler view
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        trajetAdapter = new TrajetAdapter(trajets);
+        recyclerView.setAdapter(trajetAdapter);
+    }
+
+    /**
+     * Init all buttons
+     */
+    public void initButtons() {
         btn_create_alert = findViewById(R.id.btn_create_alert);
         btn_date = findViewById(R.id.btn_date);
         btn_time = findViewById(R.id.btn_time);
@@ -113,14 +151,12 @@ public class MainActivity extends AppCompatActivity {
         btn_date.setOnClickListener(btn_listener);
         btn_time.setOnClickListener(btn_listener);
         btn_create_alert.setOnClickListener(btn_listener);
-
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     /**
      * Go to seach activity
      */
-    public void go_search () {
+    public void go_search() {
         search_page.setVisibility(View.VISIBLE);
         home_page.setVisibility(View.GONE);
         alert_page.setVisibility(View.GONE);
@@ -129,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Go to history activity
      */
-    public void go_alert () {
+    public void go_alert() {
         alert_page.setVisibility(View.VISIBLE);
         search_page.setVisibility(View.GONE);
         home_page.setVisibility(View.GONE);
@@ -138,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Go hto home activity
      */
-    public void go_home () {
+    public void go_home() {
         home_page.setVisibility(View.VISIBLE);
         alert_page.setVisibility(View.GONE);
         search_page.setVisibility(View.GONE);
@@ -147,12 +183,12 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Go to form create alert
      */
-    public void create_alert () {
+    public void create_alert() {
         Intent intent = new Intent(this, CreateAlertActivity.class);
         startActivity(intent);
     }
 
-    public Activity getActivity () {
+    public Activity getActivity() {
         return this;
     }
 }

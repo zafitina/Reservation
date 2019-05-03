@@ -7,7 +7,10 @@
     <string name="title_arrival">Arrival</string>
     <string name="title_date">Date</string>
     <string name="title_time">Time</string>
+    <string name="title_time_start">From</string>
+    <string name="title_time_end">To</string>
     <string name="title_create_alert">Create alert</string>
     <string name="title_valid_search">validate search</string>
     <string name="title_receive_alert">Receive alert</string>
+    <string name="title_history">History</string>
 </resources>
