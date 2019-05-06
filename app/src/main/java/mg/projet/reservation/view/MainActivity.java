@@ -26,6 +26,8 @@ import mg.projet.reservation.adapter.TrajetAdapter;
 import mg.projet.reservation.application.App;
 import mg.projet.reservation.model.DaoSession;
 import mg.projet.reservation.model.Trajet;
+import mg.projet.reservation.model.Ville;
+import mg.projet.reservation.model.VilleDao;
 
 public class MainActivity extends AppCompatActivity {
     private ConstraintLayout home_page, search_page, alert_page;
@@ -114,7 +116,23 @@ public class MainActivity extends AppCompatActivity {
 
         initButtons();
 
+        addDatas();
+
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    /**
+     * Ajout des datas
+     */
+    public void addDatas() {
+        String[] noms = {"Valenciennes", "Lille", "Maubeuge", "Amiens", "Templeuve", "Seclin", "Hautmont", "Lesquin", "Saint-Amand", "Somain"};
+        VilleDao villeDao = daoSession.getVilleDao();
+        for (int i = 0; i < noms.length; i++) {
+            Ville ville = new Ville();
+            ville.setNom(noms[i]);
+            ville.setRegion("Hauts-de-France");
+            villeDao.insertOrReplace(ville);
+        }
     }
 
     /**
