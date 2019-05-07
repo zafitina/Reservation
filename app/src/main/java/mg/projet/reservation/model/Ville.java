@@ -2,6 +2,7 @@ package mg.projet.reservation.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 
@@ -12,11 +13,13 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
 @Entity(
-        nameInDb = "villes"
+        nameInDb = "villes",
+        generateConstructors = true,
+        generateGettersSetters = true
 )
 public class Ville {
-    @Id
-    private int id;
+    @Id(autoincrement = true)
+    private Long id;
     @NotNull
     private String nom;
     private String region;
@@ -27,46 +30,21 @@ public class Ville {
     /**
      * Used to resolve relations
      */
-    @Generated(hash = 2040040024)
+    @Keep
     private transient DaoSession daoSession;
     /**
      * Used for active entity operations.
      */
-    @Generated(hash = 66470951)
+    @Keep
     private transient VilleDao myDao;
 
-    @Generated(hash = 1450951850)
-    public Ville(int id, @NotNull String nom, String region) {
-        this.id = id;
-        this.nom = nom;
-        this.region = region;
-    }
-
-    @Generated(hash = 1004773709)
     public Ville() {
     }
 
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
+    @Generated(hash = 623241340)
+    public Ville(Long id, @NotNull String nom, String region) {
         this.id = id;
-    }
-
-    public String getNom() {
-        return this.nom;
-    }
-
-    public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public String getRegion() {
-        return this.region;
-    }
-
-    public void setRegion(String region) {
         this.region = region;
     }
 
@@ -74,7 +52,7 @@ public class Ville {
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 1148319465)
+    @Keep
     public List<Trajet> getDeparts() {
         if (departs == null) {
             final DaoSession daoSession = this.daoSession;
@@ -82,7 +60,7 @@ public class Ville {
                 throw new DaoException("Entity is detached from DAO context");
             }
             TrajetDao targetDao = daoSession.getTrajetDao();
-            List<Trajet> departsNew = targetDao._queryVille_Departs(id);
+            List<Trajet> departsNew = targetDao._queryVille_Departs((int) (long) id);
             synchronized (this) {
                 if (departs == null) {
                     departs = departsNew;
@@ -95,7 +73,7 @@ public class Ville {
     /**
      * Resets a to-many relationship, making the next get call to query for a fresh result.
      */
-    @Generated(hash = 1414084810)
+    @Keep
     public synchronized void resetDeparts() {
         departs = null;
     }
@@ -104,7 +82,7 @@ public class Ville {
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 284509301)
+    @Keep
     public List<Trajet> getArrivees() {
         if (arrivees == null) {
             final DaoSession daoSession = this.daoSession;
@@ -112,7 +90,7 @@ public class Ville {
                 throw new DaoException("Entity is detached from DAO context");
             }
             TrajetDao targetDao = daoSession.getTrajetDao();
-            List<Trajet> arriveesNew = targetDao._queryVille_Arrivees(id);
+            List<Trajet> arriveesNew = targetDao._queryVille_Arrivees((int) (long) id);
             synchronized (this) {
                 if (arrivees == null) {
                     arrivees = arriveesNew;
@@ -125,7 +103,7 @@ public class Ville {
     /**
      * Resets a to-many relationship, making the next get call to query for a fresh result.
      */
-    @Generated(hash = 134140903)
+    @Keep
     public synchronized void resetArrivees() {
         arrivees = null;
     }
@@ -134,7 +112,7 @@ public class Ville {
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
      */
-    @Generated(hash = 128553479)
+    @Keep
     public void delete() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
@@ -146,7 +124,7 @@ public class Ville {
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
      */
-    @Generated(hash = 1942392019)
+    @Keep
     public void refresh() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
@@ -158,12 +136,40 @@ public class Ville {
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
      */
-    @Generated(hash = 713229351)
+    @Keep
     public void update() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setNom(String _nom) {
+        this.nom = _nom;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return this.nom;
+    }
+
+    public String getRegion() {
+        return this.region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /** called by internal mechanisms, do not call yourself. */

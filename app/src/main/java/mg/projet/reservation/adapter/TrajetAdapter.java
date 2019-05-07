@@ -47,7 +47,7 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.setText(trajets.get(position).getId());
+        holder.textView.setText("" + trajets.get(position).getId());
 
     }
 

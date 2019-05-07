@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -127,10 +128,12 @@ public class MainActivity extends AppCompatActivity {
     public void addDatas() {
         String[] noms = {"Valenciennes", "Lille", "Maubeuge", "Amiens", "Templeuve", "Seclin", "Hautmont", "Lesquin", "Saint-Amand", "Somain"};
         VilleDao villeDao = daoSession.getVilleDao();
+        villeDao.deleteAll();
         for (int i = 0; i < noms.length; i++) {
             Ville ville = new Ville();
             ville.setNom(noms[i]);
             ville.setRegion("Hauts-de-France");
+            Log.d("VILLE_ID", "" + ville.getId() + " " + ville.getNom());
             villeDao.insertOrReplace(ville);
         }
     }
