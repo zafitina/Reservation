@@ -172,6 +172,20 @@ public class Ville {
         this.id = id;
     }
 
+    /**
+     * Vérifier sur la ville existe déjà dans la base
+     *
+     * @return boolean
+     */
+    public boolean ifExist(DaoSession daoSession) {
+        for (int i = 0; i < daoSession.getVilleDao().loadAll().size(); i++) {
+            if (this.nom.equalsIgnoreCase(daoSession.getVilleDao().loadAll().get(i).getNom())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1317005665)
     public void __setDaoSession(DaoSession daoSession) {

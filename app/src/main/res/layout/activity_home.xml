@@ -17,16 +17,25 @@
             android:id="@+id/history_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_history" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/title_result"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="#008477"
+            android:textAlignment="center"
+            android:textAllCaps="true" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/history"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="50dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbars="vertical" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

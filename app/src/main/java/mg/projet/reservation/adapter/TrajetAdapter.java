@@ -1,10 +1,14 @@
 package mg.projet.reservation.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import mg.projet.reservation.R;
@@ -18,11 +22,17 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.MyViewHold
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView textView;
+        public TextView heure_depart;
+        public TextView ville_depart;
+        public TextView heure_arrivee;
+        public TextView ville_arrivee;
 
-        public MyViewHolder(TextView v) {
+        public MyViewHolder(View v) {
             super(v);
-            textView = v;
+            heure_depart = (TextView) v.findViewById(R.id.heure_depart);
+            ville_depart = (TextView) v.findViewById(R.id.ville_depart);
+            heure_arrivee = (TextView) v.findViewById(R.id.heure_arrivee);
+            ville_arrivee = (TextView) v.findViewById(R.id.ville_arrivee);
         }
     }
 
@@ -35,9 +45,10 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.MyViewHold
     @Override
     public TrajetAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                          int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
         // create a new view
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_main, parent, false);
+        View v = inflater.inflate(R.layout.activity_trajet, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
@@ -47,8 +58,18 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.setText("" + trajets.get(position).getId());
+        Trajet trajet = trajets.get(position);
+        DateFormat df = new SimpleDateFormat("dd MMM y");
+        DateFormat tf = new SimpleDateFormat("HH:mm");
 
+        TextView heure_depart = holder.heure_depart;
+        TextView ville_depart = holder.ville_depart;
+        TextView heure_arrivee = holder.heure_arrivee;
+        TextView ville_arrivee = holder.ville_arrivee;
+        heure_depart.setText("" + df.format(trajet.getDate()) + " " + tf.format(trajet.getHeure_depart()));
+        ville_depart.setText("" + trajet.getDepart().getNom());
+        heure_arrivee.setText("" + df.format(trajet.getDate()) + "" + tf.format(trajet.getHeure_arrivee()));
+        ville_arrivee.setText("" + trajet.getArrivee().getNom());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

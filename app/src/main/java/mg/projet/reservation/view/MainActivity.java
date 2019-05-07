@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +19,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import mg.projet.reservation.R;
@@ -27,11 +31,13 @@ import mg.projet.reservation.adapter.TrajetAdapter;
 import mg.projet.reservation.application.App;
 import mg.projet.reservation.model.DaoSession;
 import mg.projet.reservation.model.Trajet;
+import mg.projet.reservation.model.TrajetDao;
 import mg.projet.reservation.model.Ville;
 import mg.projet.reservation.model.VilleDao;
 
 public class MainActivity extends AppCompatActivity {
-    private ConstraintLayout home_page, search_page, alert_page;
+    private ConstraintLayout home_page, search_page;
+    private LinearLayout alert_page;
     private RecyclerView recyclerView;
     private DaoSession daoSession;
     private BottomNavigationView navView;
@@ -128,14 +134,27 @@ public class MainActivity extends AppCompatActivity {
     public void addDatas() {
         String[] noms = {"Valenciennes", "Lille", "Maubeuge", "Amiens", "Templeuve", "Seclin", "Hautmont", "Lesquin", "Saint-Amand", "Somain"};
         VilleDao villeDao = daoSession.getVilleDao();
-        villeDao.deleteAll();
+//        villeDao.deleteAll();
         for (int i = 0; i < noms.length; i++) {
             Ville ville = new Ville();
             ville.setNom(noms[i]);
             ville.setRegion("Hauts-de-France");
+            if (ville.ifExist(daoSession)) {
+                continue;
+            }
             Log.d("VILLE_ID", "" + ville.getId() + " " + ville.getNom());
             villeDao.insertOrReplace(ville);
         }
+
+        TrajetDao trajetDao = daoSession.getTrajetDao();
+//        trajetDao.deleteAll();
+        Trajet trajet = new Trajet();
+        trajet.setDate(new Date());
+        trajet.setDepart(villeDao.load((long) 301));
+        trajet.setArrivee(villeDao.load((long) 302));
+        trajet.setHeure_arrivee(new Date());
+        trajet.setHeure_depart(new Date());
+        trajetDao.insert(trajet);
     }
 
     /**
@@ -145,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
         navView = findViewById(R.id.nav_view);
         recyclerView = findViewById(R.id.history);
         daoSession = ((App) getApplication()).getDaoSession();
+        TrajetDao trajetDao = daoSession.getTrajetDao();
+        trajets = trajetDao.loadAll();
 
         home_page = findViewById(R.id.home_page);
         alert_page = findViewById(R.id.alert_page);
@@ -158,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         trajetAdapter = new TrajetAdapter(trajets);
         recyclerView.setAdapter(trajetAdapter);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     /**

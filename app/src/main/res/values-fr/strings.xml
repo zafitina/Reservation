@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Reservations</string>
+    <string name="title_alert">Notifications</string>
+    <string name="title_arrival">Arrivée</string>
+    <string name="title_create_alert">Créer une notification</string>
+    <string name="title_date">Date</string>
+    <string name="title_departure">Départ</string>
+    <string name="title_history">Historique</string>
+    <string name="title_home">Accueil</string>
+    <string name="title_receive_alert">Recevoir notiification</string>
+    <string name="title_search">Recherche</string>
+    <string name="title_time">Heure</string>
+    <string name="title_time_end">Heure depart</string>
+    <string name="title_time_start">Heure arrivée</string>
+    <string name="title_valid_search">Valdier la recherche</string>
+    <string name="title_result">Resultats</string>
+</resources>

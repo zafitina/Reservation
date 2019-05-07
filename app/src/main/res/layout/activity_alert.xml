@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".view.AlertActivity">
 
     <FrameLayout
@@ -16,9 +17,26 @@
             android:id="@+id/btn_create_alert"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/button_rounded"
             android:backgroundTint="#008477"
             android:text="@string/title_create_alert" />
     </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/title_alerts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/title_alert"
+        android:textSize="30sp"
+        android:textColor="#008477"
+        android:textStyle="bold"
+        android:textAllCaps="true" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
