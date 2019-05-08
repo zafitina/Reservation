@@ -23,6 +23,7 @@
         <activity android:name=".view.SearchActivity" />
         <activity android:name=".view.AlertActivity" />
         <activity android:name=".view.CreateAlertActivity" />
+        <activity android:name=".view.ResultActivity" />
     </application>
 
 </manifest>

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/title_result"
+            android:text="@string/title_history"
             android:textStyle="bold"
             android:textSize="30sp"
             android:textColor="#008477"

@@ -20,124 +20,103 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/departure_layout"
+        <EditText
+            android:id="@+id/departure_alert"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="10dp">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/departure"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/title_departure"
-                android:selectAllOnFocus="true"
-                android:singleLine="false" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/arrival_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="10dp">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/arrival"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/title_arrival"
-                android:selectAllOnFocus="true"
-                android:singleLine="false" />
-        </android.support.design.widget.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:background="@drawable/rounde_border_editext"
+            android:ems="10"
+            android:hint="@string/title_departure"
+            android:inputType="text"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
 
-            <EditText
-                android:id="@+id/date"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/title_date"
-                android:inputType="date" />
-
-            <Button
-                android:id="@+id/btn_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/ic_notifications_black_24dp" />
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/arrival_alert"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:background="@drawable/rounde_border_editext"
+            android:ems="10"
+            android:hint="@string/title_arrival"
+            android:inputType="text"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
 
-            <EditText
-                android:id="@+id/time_start"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/title_time_start"
-                android:inputType="time" />
-
-            <Button
-                android:id="@+id/btn_time_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/ic_notifications_black_24dp" />
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/date_alert"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:background="@drawable/rounde_border_editext"
+            android:ems="10"
+            android:hint="@string/title_date"
+            android:inputType="date|phone"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
 
-            <EditText
-                android:id="@+id/time_end"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/title_time_end"
-                android:inputType="time" />
+        <EditText
+            android:id="@+id/time_start_alert"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounde_border_editext"
+            android:ems="10"
+            android:hint="@string/title_time_start"
+            android:inputType="time|phone"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
 
-            <Button
-                android:id="@+id/btn_time_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/ic_notifications_black_24dp" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/time_end_alert"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounde_border_editext"
+            android:ems="10"
+            android:hint="@string/title_time_end"
+            android:inputType="time|phone"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
+
+        <EditText
+            android:id="@+id/email_alert"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounde_border_editext"
+            android:ems="10"
+            android:hint="@string/title_email"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
 
         <Button
-            android:id="@+id/btn_validate_search"
+            android:id="@+id/btn_validate_search_alert"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/button_rounded"
             android:backgroundTint="#008477"

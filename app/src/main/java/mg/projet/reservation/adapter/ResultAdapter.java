@@ -14,7 +14,7 @@ import java.util.List;
 import mg.projet.reservation.R;
 import mg.projet.reservation.model.Trajet;
 
-public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.MyViewHolder> {
+public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHolder> {
     private List<Trajet> trajets;
 
     // Provide a reference to the views for each data item
@@ -29,26 +29,26 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.MyViewHold
 
         public MyViewHolder(View v) {
             super(v);
-            heure_depart = (TextView) v.findViewById(R.id.heure_depart);
-            ville_depart = (TextView) v.findViewById(R.id.ville_depart);
-            heure_arrivee = (TextView) v.findViewById(R.id.heure_arrivee);
-            ville_arrivee = (TextView) v.findViewById(R.id.ville_arrivee);
+            heure_depart = (TextView) v.findViewById(R.id.result_heure_depart);
+            ville_depart = (TextView) v.findViewById(R.id.result_ville_depart);
+            heure_arrivee = (TextView) v.findViewById(R.id.result_heure_arrivee);
+            ville_arrivee = (TextView) v.findViewById(R.id.result_ville_arrivee);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public TrajetAdapter(List<Trajet> _trajets) {
+    public ResultAdapter(List<Trajet> _trajets) {
         trajets = _trajets;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public TrajetAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+    public ResultAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                          int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         // create a new view
-        View v = inflater.inflate(R.layout.activity_trajet, parent, false);
+        View v = inflater.inflate(R.layout.activity_trajet_result, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }

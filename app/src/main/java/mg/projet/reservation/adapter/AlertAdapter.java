@@ -12,10 +12,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import mg.projet.reservation.R;
-import mg.projet.reservation.model.Trajet;
+import mg.projet.reservation.model.Notification;
 
-public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.MyViewHolder> {
-    private List<Trajet> trajets;
+public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder> {
+    private List<Notification> alerts;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -29,28 +29,38 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.MyViewHold
 
         public MyViewHolder(View v) {
             super(v);
-            heure_depart = (TextView) v.findViewById(R.id.heure_depart);
-            ville_depart = (TextView) v.findViewById(R.id.ville_depart);
-            heure_arrivee = (TextView) v.findViewById(R.id.heure_arrivee);
-            ville_arrivee = (TextView) v.findViewById(R.id.ville_arrivee);
+            heure_depart = (TextView) v.findViewById(R.id.alert_heure_depart);
+            ville_depart = (TextView) v.findViewById(R.id.alert_ville_depart);
+            heure_arrivee = (TextView) v.findViewById(R.id.alert_heure_arrivee);
+            ville_arrivee = (TextView) v.findViewById(R.id.alert_ville_arrivee);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public TrajetAdapter(List<Trajet> _trajets) {
-        trajets = _trajets;
+    public AlertAdapter(List<Notification> _alerts) {
+        alerts = _alerts;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public TrajetAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                         int viewType) {
+    public AlertAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                        int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         // create a new view
-        View v = inflater.inflate(R.layout.activity_trajet, parent, false);
+        View v = inflater.inflate(R.layout.activity_notification, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
+    }
+
+    /**
+     * Ajout d'une alerte
+     *
+     * @param notification
+     */
+    public void addAlert(Notification notification) {
+        alerts.add(notification);
+        notifyDataSetChanged();
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -58,7 +68,7 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Trajet trajet = trajets.get(position);
+        Notification notification = alerts.get(position);
         DateFormat df = new SimpleDateFormat("dd MMM y");
         DateFormat tf = new SimpleDateFormat("HH:mm");
 
@@ -66,15 +76,15 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.MyViewHold
         TextView ville_depart = holder.ville_depart;
         TextView heure_arrivee = holder.heure_arrivee;
         TextView ville_arrivee = holder.ville_arrivee;
-        heure_depart.setText(df.format(trajet.getDate()) + " " + tf.format(trajet.getHeure_depart()));
-        ville_depart.setText(trajet.getDepart().getNom().toUpperCase());
-        heure_arrivee.setText(df.format(trajet.getDate()) + " " + tf.format(trajet.getHeure_arrivee()));
-        ville_arrivee.setText(trajet.getArrivee().getNom().toUpperCase());
+        heure_depart.setText(df.format(notification.getDate()) + " " + tf.format(notification.getHeure_depart()));
+        ville_depart.setText(notification.getDepart().toUpperCase());
+        heure_arrivee.setText(df.format(notification.getDate()) + " " + tf.format(notification.getHeure_arrivee()));
+        ville_arrivee.setText(notification.getArrivee().toUpperCase());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return trajets.size();
+        return alerts.size();
     }
 }

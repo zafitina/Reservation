@@ -27,9 +27,13 @@ import java.util.Date;
 import java.util.List;
 
 import mg.projet.reservation.R;
+import mg.projet.reservation.adapter.AlertAdapter;
+import mg.projet.reservation.adapter.ResultAdapter;
 import mg.projet.reservation.adapter.TrajetAdapter;
 import mg.projet.reservation.application.App;
 import mg.projet.reservation.model.DaoSession;
+import mg.projet.reservation.model.Notification;
+import mg.projet.reservation.model.NotificationDao;
 import mg.projet.reservation.model.Trajet;
 import mg.projet.reservation.model.TrajetDao;
 import mg.projet.reservation.model.Ville;
@@ -38,57 +42,99 @@ import mg.projet.reservation.model.VilleDao;
 public class MainActivity extends AppCompatActivity {
     private ConstraintLayout home_page, search_page;
     private LinearLayout alert_page;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView_history, recyclerView_alert;
     private DaoSession daoSession;
     private BottomNavigationView navView;
-    private Button btn_date, btn_time, btn_create_alert;
-    private EditText txt_date, txt_time;
+    private Button btn_create_alert, btn_search;
+    private EditText txt_date, txt_time, txt_depart, txt_arrivee;
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private LinearLayoutManager layoutManager;
-    private TrajetAdapter trajetAdapter;
-    private List<Trajet> trajets;
+    private LinearLayoutManager layoutManager_history, layoutManager_alert;
+    public static TrajetAdapter trajetAdapter;
+    public static ResultAdapter resultAdapter;
+    public static AlertAdapter alertAdapter;
+    private List<Trajet> trajets, trajetList;
+    private List<Notification> alerts;
+
+    private View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            Calendar c = Calendar.getInstance();
+            switch (view.getId()) {
+                case R.id.date:
+                    if (b) {
+                        mYear = c.get(Calendar.YEAR);
+                        mMonth = c.get(Calendar.MONTH);
+                        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                                new DatePickerDialog.OnDateSetListener() {
+
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year,
+                                                          int monthOfYear, int dayOfMonth) {
+                                        mYear = year;
+                                        mMonth = monthOfYear;
+                                        mDay = dayOfMonth;
+
+                                        txt_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                                    }
+                                }, mYear, mMonth, mDay);
+                        datePickerDialog.show();
+                    }
+                    break;
+                case R.id.time:
+                    if (b) {
+                        mHour = c.get(Calendar.HOUR_OF_DAY);
+                        mMinute = c.get(Calendar.MINUTE);
+
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                                new TimePickerDialog.OnTimeSetListener() {
+
+                                    @Override
+                                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                                          int minute) {
+
+                                        mHour = hourOfDay;
+                                        mMinute = minute;
+                                        txt_time.setText(hourOfDay + ":" + minute);
+                                    }
+                                }, mHour, mMinute, true);
+                        timePickerDialog.show();
+                    }
+                    break;
+            }
+        }
+    };
 
     private View.OnClickListener btn_listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Calendar c = Calendar.getInstance();
             switch (v.getId()) {
-                case R.id.btn_date:
-                    mYear = c.get(Calendar.YEAR);
-                    mMonth = c.get(Calendar.MONTH);
-                    mDay = c.get(Calendar.DAY_OF_MONTH);
-
-                    DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                            new DatePickerDialog.OnDateSetListener() {
-
-                                @Override
-                                public void onDateSet(DatePicker view, int year,
-                                                      int monthOfYear, int dayOfMonth) {
-
-                                    txt_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-
-                                }
-                            }, mYear, mMonth, mDay);
-                    datePickerDialog.show();
-                    break;
-                case R.id.btn_time:
-                    mHour = c.get(Calendar.HOUR_OF_DAY);
-                    mMinute = c.get(Calendar.MINUTE);
-
-                    TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
-                            new TimePickerDialog.OnTimeSetListener() {
-
-                                @Override
-                                public void onTimeSet(TimePicker view, int hourOfDay,
-                                                      int minute) {
-
-                                    txt_time.setText(hourOfDay + ":" + minute);
-                                }
-                            }, mHour, mMinute, true);
-                    timePickerDialog.show();
-                    break;
                 case R.id.btn_create_alert:
                     create_alert();
+                    break;
+                case R.id.btn_validate_search:
+                    TrajetDao trajetDao = daoSession.getTrajetDao();
+                    VilleDao villeDao = daoSession.getVilleDao();
+                    Ville depart = villeDao.queryBuilder().where(VilleDao.Properties.Nom.like(txt_depart.getText().toString())).unique();
+                    Ville arrivee = villeDao.queryBuilder().where(VilleDao.Properties.Nom.like(txt_arrivee.getText().toString())).unique();
+                    Date d = new Date();
+                    d.setYear(mYear);
+                    d.setMonth(mMonth);
+                    d.setDate(mDay);
+                    d.setHours(mHour);
+                    d.setMinutes(mMinute);
+
+                    trajetList = trajetDao.queryBuilder()
+                            .where(TrajetDao.Properties.Depart_id.eq(depart.getId()))
+                            .where(TrajetDao.Properties.Arrivee_id.eq(arrivee.getId()))
+                            .where(TrajetDao.Properties.Date.eq(d))
+                            .where(TrajetDao.Properties.Heure_depart.ge(d))
+                            .list();
+                    resultAdapter = new ResultAdapter(trajetList);
+                    form_search();
                     break;
             }
         }
@@ -104,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     go_home();
                     return true;
                 case R.id.navigation_search:
+
                     go_search();
                     return true;
                 case R.id.navigation_history:
@@ -150,11 +197,21 @@ public class MainActivity extends AppCompatActivity {
 //        trajetDao.deleteAll();
         Trajet trajet = new Trajet();
         trajet.setDate(new Date());
-        trajet.setDepart(villeDao.load((long) 301));
-        trajet.setArrivee(villeDao.load((long) 302));
+        trajet.setDepart(villeDao.load((long) 1));
+        trajet.setArrivee(villeDao.load((long) 2));
         trajet.setHeure_arrivee(new Date());
         trajet.setHeure_depart(new Date());
         trajetDao.insert(trajet);
+
+        NotificationDao notificationDao = daoSession.getNotificationDao();
+        Notification notification = new Notification();
+        notification.setDepart("Amiens");
+        notification.setArrivee("Valenciennes");
+        notification.setDate(new Date());
+        notification.setHeure_depart(new Date());
+        notification.setHeure_arrivee(new Date());
+        notification.setEmail("anemail@email");
+        notificationDao.insert(notification);
     }
 
     /**
@@ -162,10 +219,13 @@ public class MainActivity extends AppCompatActivity {
      */
     public void initViews() {
         navView = findViewById(R.id.nav_view);
-        recyclerView = findViewById(R.id.history);
+        recyclerView_history = findViewById(R.id.history);
+        recyclerView_alert = findViewById(R.id.alerts);
         daoSession = ((App) getApplication()).getDaoSession();
         TrajetDao trajetDao = daoSession.getTrajetDao();
-        trajets = trajetDao.loadAll();
+        NotificationDao notificationDao = daoSession.getNotificationDao();
+        trajets = trajetDao.queryBuilder().orderAsc(TrajetDao.Properties.Heure_depart).list();
+        alerts = notificationDao.queryBuilder().orderAsc(NotificationDao.Properties.Heure_depart).list();
 
         home_page = findViewById(R.id.home_page);
         alert_page = findViewById(R.id.alert_page);
@@ -174,12 +234,19 @@ public class MainActivity extends AppCompatActivity {
         search_page.setVisibility(View.GONE);
         alert_page.setVisibility(View.GONE);
 
-        // recycler view
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
+        // recycler view history
+        recyclerView_history.setHasFixedSize(true);
+        layoutManager_history = new LinearLayoutManager(this);
         trajetAdapter = new TrajetAdapter(trajets);
-        recyclerView.setAdapter(trajetAdapter);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView_history.setAdapter(trajetAdapter);
+        recyclerView_history.setLayoutManager(layoutManager_history);
+
+        // recycler view alerts
+        recyclerView_alert.setHasFixedSize(true);
+        layoutManager_alert = new LinearLayoutManager(this);
+        alertAdapter = new AlertAdapter(alerts);
+        recyclerView_alert.setAdapter(alertAdapter);
+        recyclerView_alert.setLayoutManager(layoutManager_alert);
     }
 
     /**
@@ -187,13 +254,16 @@ public class MainActivity extends AppCompatActivity {
      */
     public void initButtons() {
         btn_create_alert = findViewById(R.id.btn_create_alert);
-        btn_date = findViewById(R.id.btn_date);
-        btn_time = findViewById(R.id.btn_time);
+        btn_search = findViewById(R.id.btn_validate_search);
         txt_date = findViewById(R.id.date);
         txt_time = findViewById(R.id.time);
-        btn_date.setOnClickListener(btn_listener);
-        btn_time.setOnClickListener(btn_listener);
+        txt_depart = findViewById(R.id.departure);
+        txt_arrivee = findViewById(R.id.arrival);
         btn_create_alert.setOnClickListener(btn_listener);
+        btn_search.setOnClickListener(btn_listener);
+
+        txt_date.setOnFocusChangeListener(onFocusChangeListener);
+        txt_time.setOnFocusChangeListener(onFocusChangeListener);
     }
 
     /**
@@ -228,6 +298,11 @@ public class MainActivity extends AppCompatActivity {
      */
     public void create_alert() {
         Intent intent = new Intent(this, CreateAlertActivity.class);
+        startActivity(intent);
+    }
+
+    public void form_search() {
+        Intent intent = new Intent(this, ResultActivity.class);
         startActivity(intent);
     }
 
