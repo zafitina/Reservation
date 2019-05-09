@@ -1,11 +1,15 @@
 package mg.projet.reservation.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,7 +26,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         // each data item is just a string in this case
         public TextView heure_depart;
         public TextView ville_depart;
@@ -31,10 +35,17 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
 
         public MyViewHolder(View v) {
             super(v);
+            v.setOnLongClickListener(this);
             heure_depart = (TextView) v.findViewById(R.id.result_heure_depart);
             ville_depart = (TextView) v.findViewById(R.id.result_ville_depart);
             heure_arrivee = (TextView) v.findViewById(R.id.result_heure_arrivee);
             ville_arrivee = (TextView) v.findViewById(R.id.result_ville_arrivee);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            view.setBackgroundColor(Color.RED);
+            return true;
         }
     }
 
@@ -91,4 +102,5 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
     public int getItemCount() {
         return trajets.size();
     }
+
 }

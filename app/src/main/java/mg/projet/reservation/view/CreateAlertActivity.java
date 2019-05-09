@@ -113,32 +113,56 @@ public class CreateAlertActivity extends AppCompatActivity {
                 case R.id.btn_validate_search_alert:
                     String email = txt_email.getText().toString().trim();
                     if (!isvalidInput(txt_depart.getText().toString().trim())) {
+                        txt_depart.setBackgroundResource(R.drawable.editext_error);
                         txt_depart.setError(R.string.required + "");
                         break;
+                    } else {
+                        txt_depart.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     if (!isvalidInput(txt_arrivee.getText().toString().trim())) {
+                        txt_arrivee.setBackgroundResource(R.drawable.editext_error);
                         txt_arrivee.setError(R.string.required + "");
                         break;
+                    } else {
+                        txt_arrivee.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     if (!isvalidInput(txt_date.getText().toString().trim())) {
+                        txt_date.setBackgroundResource(R.drawable.editext_error);
                         txt_date.setError(R.string.required + "");
                         break;
+                    } else {
+                        txt_date.setBackgroundResource(R.drawable.rounde_border_editext);
+                        txt_date.setError(null);
                     }
                     if (!isvalidInput(txt_time_start.getText().toString().trim())) {
+                        txt_time_start.setBackgroundResource(R.drawable.editext_error);
                         txt_time_start.setError(R.string.required + "");
                         break;
+                    } else {
+                        txt_time_start.setBackgroundResource(R.drawable.rounde_border_editext);
+                        txt_time_start.setError(null);
                     }
                     if (!isvalidInput(txt_time_end.getText().toString().trim())) {
+                        txt_time_end.setBackgroundResource(R.drawable.editext_error);
                         txt_time_end.setError(R.string.required + "");
                         break;
+                    } else {
+                        txt_time_end.setBackgroundResource(R.drawable.rounde_border_editext);
+                        txt_time_end.setError(null);
                     }
                     if (!isvalidInput(txt_email.getText().toString().trim())) {
+                        txt_email.setBackgroundResource(R.drawable.editext_error);
                         txt_email.setError(R.string.required + "");
                         break;
+                    } else {
+                        txt_email.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     if (!isValidEmail(email)) {
+                        txt_email.setBackgroundResource(R.drawable.editext_error);
                         txt_email.setError(R.string.email_invalid + "");
                         break;
+                    } else {
+                        txt_email.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     NotificationDao notificationDao = daoSession.getNotificationDao();
                     Notification notification = new Notification();

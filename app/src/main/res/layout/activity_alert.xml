@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_rounded"
-            android:backgroundTint="#008477"
             android:text="@string/title_create_alert" />
     </FrameLayout>
 

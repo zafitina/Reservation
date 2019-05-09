@@ -24,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onTimeSet(TimePicker view, int hourOfDay,
                                                           int minute) {
 
+                                        date_depart.setTime(c.getTimeInMillis());
                                         date_depart.setHours(hourOfDay);
                                         date_depart.setMinutes(minute);
                                         txt_time.setText(hourOfDay + ":" + minute);
@@ -124,20 +127,34 @@ public class MainActivity extends AppCompatActivity {
 
                     // Vérifier champs obligatoires
                     if (!isvalidInput(txt_depart.getText().toString().trim())) {
+                        txt_depart.setBackgroundResource(R.drawable.editext_error);
                         txt_depart.setError(R.string.required + "");
                         break;
+                    } else {
+                        txt_depart.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     if (!isvalidInput(txt_arrivee.getText().toString().trim())) {
+                        txt_arrivee.setBackgroundResource(R.drawable.editext_error);
                         txt_arrivee.setError(R.string.required + "");
                         break;
+                    } else {
+                        txt_arrivee.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     if (!isvalidInput(txt_date.getText().toString().trim())) {
+                        txt_date.setBackgroundResource(R.drawable.editext_error);
                         txt_date.setError(R.string.required + "");
                         break;
+                    } else {
+                        txt_date.setBackgroundResource(R.drawable.rounde_border_editext);
+                        txt_date.setError(null);
                     }
                     if (!isvalidInput(txt_time.getText().toString().trim())) {
+                        txt_time.setBackgroundResource(R.drawable.editext_error);
                         txt_time.setError(R.string.required + "");
                         break;
+                    } else {
+                        txt_time.setBackgroundResource(R.drawable.rounde_border_editext);
+                        txt_time.setError(null);
                     }
 
                     Ville depart = villeDao.queryBuilder().where(VilleDao.Properties.Nom.like(ville_dep)).unique();
@@ -146,10 +163,11 @@ public class MainActivity extends AppCompatActivity {
                         trajetList = trajetDao.queryBuilder()
                                 .where(TrajetDao.Properties.Depart_id.eq(depart.getId()))
                                 .where(TrajetDao.Properties.Arrivee_id.eq(arrivee.getId()))
-                                .where(TrajetDao.Properties.Date.eq(c.getTime()))
+                                .where(TrajetDao.Properties.Date.ge(date_depart))
                                 .where(TrajetDao.Properties.Heure_depart.ge(date_depart))
+                                .orderAsc(TrajetDao.Properties.Heure_depart)
+                                .limit(15)
                                 .list();
-                        Log.d("SIZE", "" + trajetList.size());
                         resultAdapter = new ResultAdapter(trajetList);
                     }
 
@@ -217,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
         TrajetDao trajetDao = daoSession.getTrajetDao();
 //        trajetDao.deleteAll();
+
         Trajet trajet = new Trajet();
         trajet.setDate(new Date());
         trajet.setDepart(villeDao.load((long) 1));
