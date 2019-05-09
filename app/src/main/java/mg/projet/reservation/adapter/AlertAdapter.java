@@ -12,7 +12,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import mg.projet.reservation.R;
+import mg.projet.reservation.model.DaoSession;
 import mg.projet.reservation.model.Notification;
+import mg.projet.reservation.model.NotificationDao;
+import mg.projet.reservation.model.TrajetDao;
 
 public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder> {
     private List<Notification> alerts;
@@ -58,8 +61,10 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
      *
      * @param notification
      */
-    public void addAlert(Notification notification) {
+    public void addAlert(DaoSession daoSession, Notification notification) {
         alerts.add(notification);
+        NotificationDao notificationDao = daoSession.getNotificationDao();
+        alerts = notificationDao.queryBuilder().orderAsc(NotificationDao.Properties.Heure_depart).list();
         notifyDataSetChanged();
     }
 

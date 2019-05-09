@@ -16,4 +16,7 @@
     <string name="title_valid_search">Valdier la recherche</string>
     <string name="title_result">Resultats</string>
     <string name="title_email">Mail</string>
+    <string name="email_invalid">Mail invalide</string>
+    <string name="required">Champ obligatoire</string>
+    <string name="lbl_alert_created">Alerte crée !</string>
 </resources>

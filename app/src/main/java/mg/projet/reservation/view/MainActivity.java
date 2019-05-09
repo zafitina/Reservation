@@ -3,6 +3,7 @@ package mg.projet.reservation.view;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -54,11 +56,12 @@ public class MainActivity extends AppCompatActivity {
     public static AlertAdapter alertAdapter;
     private List<Trajet> trajets, trajetList;
     private List<Notification> alerts;
+    private Date date_depart;
+    private Calendar c;
 
     private View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View view, boolean b) {
-            Calendar c = Calendar.getInstance();
             switch (view.getId()) {
                 case R.id.date:
                     if (b) {
@@ -72,10 +75,8 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onDateSet(DatePicker view, int year,
                                                           int monthOfYear, int dayOfMonth) {
-                                        mYear = year;
-                                        mMonth = monthOfYear;
-                                        mDay = dayOfMonth;
 
+                                        c.set(year, monthOfYear, dayOfMonth);
                                         txt_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
 
                                     }
@@ -95,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onTimeSet(TimePicker view, int hourOfDay,
                                                           int minute) {
 
-                                        mHour = hourOfDay;
-                                        mMinute = minute;
+                                        date_depart.setHours(hourOfDay);
+                                        date_depart.setMinutes(minute);
                                         txt_time.setText(hourOfDay + ":" + minute);
                                     }
                                 }, mHour, mMinute, true);
@@ -110,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener btn_listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Calendar c = Calendar.getInstance();
             switch (v.getId()) {
                 case R.id.btn_create_alert:
                     create_alert();
@@ -118,22 +118,42 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btn_validate_search:
                     TrajetDao trajetDao = daoSession.getTrajetDao();
                     VilleDao villeDao = daoSession.getVilleDao();
-                    Ville depart = villeDao.queryBuilder().where(VilleDao.Properties.Nom.like(txt_depart.getText().toString())).unique();
-                    Ville arrivee = villeDao.queryBuilder().where(VilleDao.Properties.Nom.like(txt_arrivee.getText().toString())).unique();
-                    Date d = new Date();
-                    d.setYear(mYear);
-                    d.setMonth(mMonth);
-                    d.setDate(mDay);
-                    d.setHours(mHour);
-                    d.setMinutes(mMinute);
+                    // Suppirmer les espaces dans la chaine
+                    String ville_dep = txt_depart.getText().toString().trim();
+                    String ville_arr = txt_arrivee.getText().toString().trim();
 
-                    trajetList = trajetDao.queryBuilder()
-                            .where(TrajetDao.Properties.Depart_id.eq(depart.getId()))
-                            .where(TrajetDao.Properties.Arrivee_id.eq(arrivee.getId()))
-                            .where(TrajetDao.Properties.Date.eq(d))
-                            .where(TrajetDao.Properties.Heure_depart.ge(d))
-                            .list();
-                    resultAdapter = new ResultAdapter(trajetList);
+                    // Vérifier champs obligatoires
+                    if (!isvalidInput(txt_depart.getText().toString().trim())) {
+                        txt_depart.setError(R.string.required + "");
+                        break;
+                    }
+                    if (!isvalidInput(txt_arrivee.getText().toString().trim())) {
+                        txt_arrivee.setError(R.string.required + "");
+                        break;
+                    }
+                    if (!isvalidInput(txt_date.getText().toString().trim())) {
+                        txt_date.setError(R.string.required + "");
+                        break;
+                    }
+                    if (!isvalidInput(txt_time.getText().toString().trim())) {
+                        txt_time.setError(R.string.required + "");
+                        break;
+                    }
+
+                    Ville depart = villeDao.queryBuilder().where(VilleDao.Properties.Nom.like(ville_dep)).unique();
+                    Ville arrivee = villeDao.queryBuilder().where(VilleDao.Properties.Nom.like(ville_arr)).unique();
+                    if (depart != null && arrivee != null) {
+                        trajetList = trajetDao.queryBuilder()
+                                .where(TrajetDao.Properties.Depart_id.eq(depart.getId()))
+                                .where(TrajetDao.Properties.Arrivee_id.eq(arrivee.getId()))
+                                .where(TrajetDao.Properties.Date.eq(c.getTime()))
+                                .where(TrajetDao.Properties.Heure_depart.ge(date_depart))
+                                .list();
+                        Log.d("SIZE", "" + trajetList.size());
+                        resultAdapter = new ResultAdapter(trajetList);
+                    }
+
+                    // changement d'activity
                     form_search();
                     break;
             }
@@ -165,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        c = Calendar.getInstance();
+        date_depart = new Date();
 
         initViews();
 
@@ -202,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
         trajet.setHeure_arrivee(new Date());
         trajet.setHeure_depart(new Date());
         trajetDao.insert(trajet);
+        trajetAdapter.add(daoSession, trajet);
 
         NotificationDao notificationDao = daoSession.getNotificationDao();
         Notification notification = new Notification();
@@ -212,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         notification.setHeure_arrivee(new Date());
         notification.setEmail("anemail@email");
         notificationDao.insert(notification);
+        alertAdapter.addAlert(daoSession, notification);
     }
 
     /**
@@ -301,6 +325,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Afficher l'activity des résultats de la recherche
+     */
     public void form_search() {
         Intent intent = new Intent(this, ResultActivity.class);
         startActivity(intent);
@@ -308,5 +335,15 @@ public class MainActivity extends AppCompatActivity {
 
     public Activity getActivity() {
         return this;
+    }
+
+    /**
+     * vérifie si une chaine estv ide
+     *
+     * @param input
+     * @return
+     */
+    public boolean isvalidInput(String input) {
+        return input.length() > 0;
     }
 }

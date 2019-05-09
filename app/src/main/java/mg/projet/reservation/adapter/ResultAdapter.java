@@ -12,7 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import mg.projet.reservation.R;
+import mg.projet.reservation.model.DaoSession;
 import mg.projet.reservation.model.Trajet;
+import mg.projet.reservation.model.TrajetDao;
 
 public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHolder> {
     private List<Trajet> trajets;
@@ -51,6 +53,18 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
         View v = inflater.inflate(R.layout.activity_trajet_result, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
+    }
+
+    /**
+     * Ajout trajet
+     *
+     * @param trajet
+     */
+    public void add(DaoSession daoSession, Trajet trajet) {
+        trajets.add(trajet);
+        TrajetDao trajetDao = daoSession.getTrajetDao();
+        trajets = trajetDao.queryBuilder().orderAsc(TrajetDao.Properties.Heure_depart).list();
+        notifyDataSetChanged();
     }
 
     // Replace the contents of a view (invoked by the layout manager)

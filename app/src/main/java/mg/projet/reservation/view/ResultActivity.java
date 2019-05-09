@@ -26,9 +26,9 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        linearLayoutManager = new LinearLayoutManager(this);
         recyclerView_result = findViewById(R.id.result);
-        recyclerView_result.setAdapter(resultAdapter);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView_result.setAdapter(MainActivity.resultAdapter);
         recyclerView_result.setLayoutManager(linearLayoutManager);
     }
 }

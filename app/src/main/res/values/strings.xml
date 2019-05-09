@@ -15,4 +15,7 @@
     <string name="title_history">History</string>
     <string name="title_result">Results</string>
     <string name="title_email">Email</string>
+    <string name="email_invalid">Invalid email</string>
+    <string name="required">Required</string>
+    <string name="lbl_alert_created">Alert created !</string>
 </resources>
