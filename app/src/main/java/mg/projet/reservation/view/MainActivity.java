@@ -128,21 +128,21 @@ public class MainActivity extends AppCompatActivity {
                     // Vérifier champs obligatoires
                     if (!isvalidInput(txt_depart.getText().toString().trim())) {
                         txt_depart.setBackgroundResource(R.drawable.editext_error);
-                        txt_depart.setError(R.string.required + "");
+                        txt_depart.setError(getResources().getString(R.string.required));
                         break;
                     } else {
                         txt_depart.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     if (!isvalidInput(txt_arrivee.getText().toString().trim())) {
                         txt_arrivee.setBackgroundResource(R.drawable.editext_error);
-                        txt_arrivee.setError(R.string.required + "");
+                        txt_arrivee.setError(getResources().getString(R.string.required));
                         break;
                     } else {
                         txt_arrivee.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     if (!isvalidInput(txt_date.getText().toString().trim())) {
                         txt_date.setBackgroundResource(R.drawable.editext_error);
-                        txt_date.setError(R.string.required + "");
+                        txt_date.setError(getResources().getString(R.string.required));
                         break;
                     } else {
                         txt_date.setBackgroundResource(R.drawable.rounde_border_editext);
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if (!isvalidInput(txt_time.getText().toString().trim())) {
                         txt_time.setBackgroundResource(R.drawable.editext_error);
-                        txt_time.setError(R.string.required + "");
+                        txt_time.setError(getResources().getString(R.string.required));
                         break;
                     } else {
                         txt_time.setBackgroundResource(R.drawable.rounde_border_editext);

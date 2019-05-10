@@ -114,21 +114,21 @@ public class CreateAlertActivity extends AppCompatActivity {
                     String email = txt_email.getText().toString().trim();
                     if (!isvalidInput(txt_depart.getText().toString().trim())) {
                         txt_depart.setBackgroundResource(R.drawable.editext_error);
-                        txt_depart.setError(R.string.required + "");
+                        txt_depart.setError(getResources().getString(R.string.required));
                         break;
                     } else {
                         txt_depart.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     if (!isvalidInput(txt_arrivee.getText().toString().trim())) {
                         txt_arrivee.setBackgroundResource(R.drawable.editext_error);
-                        txt_arrivee.setError(R.string.required + "");
+                        txt_arrivee.setError(getResources().getString(R.string.required));
                         break;
                     } else {
                         txt_arrivee.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     if (!isvalidInput(txt_date.getText().toString().trim())) {
                         txt_date.setBackgroundResource(R.drawable.editext_error);
-                        txt_date.setError(R.string.required + "");
+                        txt_date.setError(getResources().getString(R.string.required));
                         break;
                     } else {
                         txt_date.setBackgroundResource(R.drawable.rounde_border_editext);
@@ -136,7 +136,7 @@ public class CreateAlertActivity extends AppCompatActivity {
                     }
                     if (!isvalidInput(txt_time_start.getText().toString().trim())) {
                         txt_time_start.setBackgroundResource(R.drawable.editext_error);
-                        txt_time_start.setError(R.string.required + "");
+                        txt_time_start.setError(getResources().getString(R.string.required));
                         break;
                     } else {
                         txt_time_start.setBackgroundResource(R.drawable.rounde_border_editext);
@@ -144,7 +144,7 @@ public class CreateAlertActivity extends AppCompatActivity {
                     }
                     if (!isvalidInput(txt_time_end.getText().toString().trim())) {
                         txt_time_end.setBackgroundResource(R.drawable.editext_error);
-                        txt_time_end.setError(R.string.required + "");
+                        txt_time_end.setError(getResources().getString(R.string.required));
                         break;
                     } else {
                         txt_time_end.setBackgroundResource(R.drawable.rounde_border_editext);
@@ -152,14 +152,14 @@ public class CreateAlertActivity extends AppCompatActivity {
                     }
                     if (!isvalidInput(txt_email.getText().toString().trim())) {
                         txt_email.setBackgroundResource(R.drawable.editext_error);
-                        txt_email.setError(R.string.required + "");
+                        txt_email.setError(getResources().getString(R.string.required));
                         break;
                     } else {
                         txt_email.setBackgroundResource(R.drawable.rounde_border_editext);
                     }
                     if (!isValidEmail(email)) {
                         txt_email.setBackgroundResource(R.drawable.editext_error);
-                        txt_email.setError(R.string.email_invalid + "");
+                        txt_email.setError(getResources().getString(R.string.email_invalid));
                         break;
                     } else {
                         txt_email.setBackgroundResource(R.drawable.rounde_border_editext);

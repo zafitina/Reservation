@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Reservations</string>
+    <string name="app_name">Réservations</string>
     <string name="title_alert">Alertes</string>
     <string name="title_arrival">Ville d\'arrivée</string>
     <string name="title_create_alert">Créer une alerte</string>
@@ -14,7 +14,7 @@
     <string name="title_time_end">Et</string>
     <string name="title_time_start">Entre</string>
     <string name="title_valid_search">Valider la recherche</string>
-    <string name="title_result">Resultats</string>
+    <string name="title_result">Résultats</string>
     <string name="title_email">Mail</string>
     <string name="email_invalid">Mail invalide</string>
     <string name="required">Champ obligatoire</string>
