@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:state_pressed="true">
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:constantSize="false" android:dither="true" android:variablePadding="true">
+    <item>
         <shape android:shape="rectangle">
-            <solid android:color="#145A32" />
+            <solid android:color="@color/colorPrimary" />
             <corners android:radius="50dp" />
         </shape>
     </item>
-    <item>
+    <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="#008477" />
+            <solid android:color="@color/colorPrimaryDark" />
             <corners android:radius="50dp" />
         </shape>
     </item>

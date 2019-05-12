@@ -50,35 +50,69 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp" />
 
-        <EditText
-            android:id="@+id/date"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounde_border_editext"
-            android:ems="10"
-            android:hint="@string/title_date"
-            android:inputType="date|phone"
+            android:layout_height="wrap_content"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp">
 
-        <EditText
-            android:id="@+id/time"
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounde_border_editext"
+                android:ems="10"
+                android:hint="@string/title_date"
+                android:inputType="date|phone"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+
+            <ImageButton
+                android:id="@+id/btn_date_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/baseline_event_black_24dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounde_border_editext"
-            android:ems="10"
-            android:hint="@string/title_time"
-            android:inputType="time|phone"
+            android:layout_height="wrap_content"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp">
+
+            <EditText
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounde_border_editext"
+                android:ems="10"
+                android:hint="@string/title_time"
+                android:inputType="time|phone"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+
+            <ImageButton
+                android:id="@+id/btn_time_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/baseline_schedule_black_24dp" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/btn_validate_search"

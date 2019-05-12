@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private DaoSession daoSession;
     private BottomNavigationView navView;
     private Button btn_create_alert, btn_search;
+    private ImageButton btn_date, btn_time;
     private EditText txt_date, txt_time, txt_depart, txt_arrivee;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private LinearLayoutManager layoutManager_history, layoutManager_alert;
@@ -61,60 +63,48 @@ public class MainActivity extends AppCompatActivity {
     private Date date_depart;
     private Calendar c;
 
-    private View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View view, boolean b) {
-            switch (view.getId()) {
-                case R.id.date:
-                    if (b) {
-                        mYear = c.get(Calendar.YEAR);
-                        mMonth = c.get(Calendar.MONTH);
-                        mDay = c.get(Calendar.DAY_OF_MONTH);
-
-                        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                                new DatePickerDialog.OnDateSetListener() {
-
-                                    @Override
-                                    public void onDateSet(DatePicker view, int year,
-                                                          int monthOfYear, int dayOfMonth) {
-
-                                        c.set(year, monthOfYear, dayOfMonth);
-                                        txt_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-
-                                    }
-                                }, mYear, mMonth, mDay);
-                        datePickerDialog.show();
-                    }
-                    break;
-                case R.id.time:
-                    if (b) {
-                        mHour = c.get(Calendar.HOUR_OF_DAY);
-                        mMinute = c.get(Calendar.MINUTE);
-
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
-                                new TimePickerDialog.OnTimeSetListener() {
-
-                                    @Override
-                                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                                          int minute) {
-
-                                        date_depart.setTime(c.getTimeInMillis());
-                                        date_depart.setHours(hourOfDay);
-                                        date_depart.setMinutes(minute);
-                                        txt_time.setText(hourOfDay + ":" + minute);
-                                    }
-                                }, mHour, mMinute, true);
-                        timePickerDialog.show();
-                    }
-                    break;
-            }
-        }
-    };
-
     private View.OnClickListener btn_listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+                case R.id.btn_date_search:
+                    mYear = c.get(Calendar.YEAR);
+                    mMonth = c.get(Calendar.MONTH);
+                    mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                            new DatePickerDialog.OnDateSetListener() {
+
+                                @Override
+                                public void onDateSet(DatePicker view, int year,
+                                                      int monthOfYear, int dayOfMonth) {
+
+                                    c.set(year, monthOfYear, dayOfMonth);
+                                    txt_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                                }
+                            }, mYear, mMonth, mDay);
+                    datePickerDialog.show();
+                    break;
+                case R.id.btn_time_search:
+                    mHour = c.get(Calendar.HOUR_OF_DAY);
+                    mMinute = c.get(Calendar.MINUTE);
+
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                            new TimePickerDialog.OnTimeSetListener() {
+
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay,
+                                                      int minute) {
+
+                                    date_depart.setTime(c.getTimeInMillis());
+                                    date_depart.setHours(hourOfDay);
+                                    date_depart.setMinutes(minute);
+                                    txt_time.setText(hourOfDay + ":" + minute);
+                                }
+                            }, mHour, mMinute, true);
+                    timePickerDialog.show();
+                    break;
                 case R.id.btn_create_alert:
                     create_alert();
                     break;
@@ -298,15 +288,18 @@ public class MainActivity extends AppCompatActivity {
     public void initButtons() {
         btn_create_alert = findViewById(R.id.btn_create_alert);
         btn_search = findViewById(R.id.btn_validate_search);
+        btn_date = findViewById(R.id.btn_date_search);
+        btn_time = findViewById(R.id.btn_time_search);
+
+        btn_date.setOnClickListener(btn_listener);
+        btn_time.setOnClickListener(btn_listener);
+        btn_create_alert.setOnClickListener(btn_listener);
+        btn_search.setOnClickListener(btn_listener);
+
         txt_date = findViewById(R.id.date);
         txt_time = findViewById(R.id.time);
         txt_depart = findViewById(R.id.departure);
         txt_arrivee = findViewById(R.id.arrival);
-        btn_create_alert.setOnClickListener(btn_listener);
-        btn_search.setOnClickListener(btn_listener);
-
-        txt_date.setOnFocusChangeListener(onFocusChangeListener);
-        txt_time.setOnFocusChangeListener(onFocusChangeListener);
     }
 
     /**

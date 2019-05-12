@@ -50,50 +50,101 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp" />
 
-        <EditText
-            android:id="@+id/date_alert"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounde_border_editext"
-            android:ems="10"
-            android:hint="@string/title_date"
-            android:inputType="date|phone"
+            android:layout_height="wrap_content"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp">
 
-        <EditText
-            android:id="@+id/time_start_alert"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounde_border_editext"
-            android:ems="10"
-            android:hint="@string/title_time_start"
-            android:inputType="time|phone"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" />
+            <EditText
+                android:id="@+id/date_alert"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounde_border_editext"
+                android:ems="10"
+                android:hint="@string/title_date"
+                android:inputType="date|phone"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
 
-        <EditText
-            android:id="@+id/time_end_alert"
+            <ImageButton
+                android:id="@+id/btn_date_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/baseline_event_black_24dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounde_border_editext"
-            android:ems="10"
-            android:hint="@string/title_time_end"
-            android:inputType="time|phone"
+            android:layout_height="wrap_content"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp">
+
+            <EditText
+                android:id="@+id/time_start_alert"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounde_border_editext"
+                android:ems="10"
+                android:hint="@string/title_time_start"
+                android:inputType="time|phone"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+
+            <ImageButton
+                android:id="@+id/btn_time_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/baseline_schedule_black_24dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <EditText
+                android:id="@+id/time_end_alert"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounde_border_editext"
+                android:ems="10"
+                android:hint="@string/title_time_end"
+                android:inputType="time|phone"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+
+            <ImageButton
+                android:id="@+id/btn_time_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/baseline_schedule_black_24dp" />
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/email_alert"

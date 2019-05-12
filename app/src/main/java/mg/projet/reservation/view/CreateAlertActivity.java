@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -28,88 +29,75 @@ import mg.projet.reservation.model.NotificationDao;
 
 public class CreateAlertActivity extends AppCompatActivity {
     private Button btn_validate;
+    private ImageButton btn_date, btn_time_start, btn_time_end;
     private EditText txt_date, txt_time_start, txt_time_end, txt_email, txt_depart, txt_arrivee;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private DaoSession daoSession;
     private Date date_depart, date_arrivee;
     private Calendar c;
 
-    private View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View view, boolean b) {
-            switch (view.getId()) {
-                case R.id.date_alert:
-                    if (b) {
-                        mYear = c.get(Calendar.YEAR);
-                        mMonth = c.get(Calendar.MONTH);
-                        mDay = c.get(Calendar.DAY_OF_MONTH);
-
-                        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                                new DatePickerDialog.OnDateSetListener() {
-
-                                    @Override
-                                    public void onDateSet(DatePicker view, int year,
-                                                          int monthOfYear, int dayOfMonth) {
-
-                                        date_depart.setYear(year);
-                                        date_depart.setMonth(monthOfYear);
-                                        date_depart.setDate(dayOfMonth);
-                                        c.set(year, monthOfYear, dayOfMonth);
-                                        txt_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-
-                                    }
-                                }, mYear, mMonth, mDay);
-                        datePickerDialog.show();
-                    }
-                    break;
-                case R.id.time_start_alert:
-                    if (b) {
-                        mHour = c.get(Calendar.HOUR_OF_DAY);
-                        mMinute = c.get(Calendar.MINUTE);
-
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
-                                new TimePickerDialog.OnTimeSetListener() {
-
-                                    @Override
-                                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                                          int minute) {
-
-                                        date_depart.setHours(hourOfDay);
-                                        date_depart.setMinutes(minute);
-                                        txt_time_start.setText(hourOfDay + ":" + minute);
-                                    }
-                                }, mHour, mMinute, true);
-                        timePickerDialog.show();
-                    }
-                    break;
-                case R.id.time_end_alert:
-                    if (b) {
-                        mHour = c.get(Calendar.HOUR_OF_DAY);
-                        mMinute = c.get(Calendar.MINUTE);
-
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
-                                new TimePickerDialog.OnTimeSetListener() {
-
-                                    @Override
-                                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                                          int minute) {
-
-                                        date_arrivee.setHours(hourOfDay);
-                                        date_arrivee.setMinutes(minute);
-                                        txt_time_end.setText(hourOfDay + ":" + minute);
-                                    }
-                                }, mHour, mMinute, true);
-                        timePickerDialog.show();
-                    }
-                    break;
-            }
-        }
-    };
-
     private View.OnClickListener btn_listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+                case R.id.btn_date_alert:
+                    mYear = c.get(Calendar.YEAR);
+                    mMonth = c.get(Calendar.MONTH);
+                    mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                            new DatePickerDialog.OnDateSetListener() {
+
+                                @Override
+                                public void onDateSet(DatePicker view, int year,
+                                                      int monthOfYear, int dayOfMonth) {
+
+                                    date_depart.setYear(year);
+                                    date_depart.setMonth(monthOfYear);
+                                    date_depart.setDate(dayOfMonth);
+                                    c.set(year, monthOfYear, dayOfMonth);
+                                    txt_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                                }
+                            }, mYear, mMonth, mDay);
+                    datePickerDialog.show();
+                    break;
+                case R.id.btn_time_start:
+                    mHour = c.get(Calendar.HOUR_OF_DAY);
+                    mMinute = c.get(Calendar.MINUTE);
+
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                            new TimePickerDialog.OnTimeSetListener() {
+
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay,
+                                                      int minute) {
+
+                                    date_depart.setHours(hourOfDay);
+                                    date_depart.setMinutes(minute);
+                                    txt_time_start.setText(hourOfDay + ":" + minute);
+                                }
+                            }, mHour, mMinute, true);
+                    timePickerDialog.show();
+                    break;
+                case R.id.btn_time_end:
+                    mHour = c.get(Calendar.HOUR_OF_DAY);
+                    mMinute = c.get(Calendar.MINUTE);
+
+                    timePickerDialog = new TimePickerDialog(getActivity(),
+                            new TimePickerDialog.OnTimeSetListener() {
+
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay,
+                                                      int minute) {
+
+                                    date_arrivee.setHours(hourOfDay);
+                                    date_arrivee.setMinutes(minute);
+                                    txt_time_end.setText(hourOfDay + ":" + minute);
+                                }
+                            }, mHour, mMinute, true);
+                    timePickerDialog.show();
+                    break;
                 case R.id.btn_validate_search_alert:
                     String email = txt_email.getText().toString().trim();
                     if (!isvalidInput(txt_depart.getText().toString().trim())) {
@@ -199,13 +187,18 @@ public class CreateAlertActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_alert);
         daoSession = ((App) getApplication()).getDaoSession();
         btn_validate = findViewById(R.id.btn_validate_search_alert);
+        btn_date = findViewById(R.id.btn_date_alert);
+        btn_time_start = findViewById(R.id.btn_time_start);
+        btn_time_end = findViewById(R.id.btn_time_end);
+
+        btn_validate.setOnClickListener(btn_listener);
+        btn_date.setOnClickListener(btn_listener);
+        btn_time_start.setOnClickListener(btn_listener);
+        btn_time_end.setOnClickListener(btn_listener);
+
         txt_date = findViewById(R.id.date_alert);
         txt_time_start = findViewById(R.id.time_start_alert);
         txt_time_end = findViewById(R.id.time_end_alert);
-        btn_validate.setOnClickListener(btn_listener);
-        txt_date.setOnFocusChangeListener(onFocusChangeListener);
-        txt_time_start.setOnFocusChangeListener(onFocusChangeListener);
-        txt_time_end.setOnFocusChangeListener(onFocusChangeListener);
         txt_email = findViewById(R.id.email_alert);
         txt_depart = findViewById(R.id.departure_alert);
         txt_arrivee = findViewById(R.id.arrival_alert);

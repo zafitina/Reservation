@@ -31,7 +31,7 @@
         android:gravity="center_horizontal"
         android:text="@string/title_alert"
         android:textAllCaps="true"
-        android:textColor="#008477"
+        android:textColor="@color/colorPrimary"
         android:textSize="30sp"
         android:textStyle="bold" />
 
